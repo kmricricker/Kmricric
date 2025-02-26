@@ -1,87 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Kmri Cricker</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #1a1a1a;
-        }
-        #videoContainer {
-            width: 90%;
-            max-width: 800px;
-        }
-        #videoPlayer {
-            width: 100%;
-            background-color: black;
-        }
-        .controls {
-            margin-top: 10px;
-            text-align: center;
-        }
-        button {
-            padding: 8px 16px;
-            margin: 0 5px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Player</title>
+  <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
 </head>
 <body>
-    <div id="videoContainer">
-        <video id="videoPlayer" controls></video>
-        <div class="controls">
-            <button onclick="togglePlay()">Play/Pause</button>
-            <button onclick="toggleMute()">Mute/Unmute</button>
-        </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script>
-        const video = document.getElementById('videoPlayer');
-        const videoUrl = 'https://its-ferdos-alom.top/voood/play.php?id=Sports18_1_HD_voot_MOB';
+  <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" data-setup="{}">
+    <source src="https://its-ferdos-alom.top/voood/play.php?id=Sports18_1_HD_voot_MOB" type="application/x-mpegURL">
+    Your browser does not support the video tag.
+  </video>
 
-        if (Hls.isSupported()) {
-            const hls = new Hls();
-            hls.loadSource(videoUrl);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play().catch(error => {
-                    console.log('Autoplay prevented:', error);
-                });
-            });
-            
-            // Error handling
-            hls.on(Hls.Events.ERROR, (event, data) => {
-                console.error('HLS Error:', data);
-            });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = videoUrl;
-            video.addEventListener('loadedmetadata', function() {
-                video.play().catch(error => {
-                    console.log('Autoplay prevented:', error);
-                });
-            });
-        }
+  <script>
+    var player = videojs('my-video');
+  </script>
 
-        function togglePlay() {
-            if (video.paused) {
-                video.play();
-            } else {
-                video.pause();
-            }
-        }
-
-        function toggleMute() {
-            video.muted = !video.muted;
-        }
-    </script>
 </body>
 </html>
