@@ -1,22 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Player</title>
-  <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
-  <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
+    <title>Stream Player</title>
+    <!-- Include HLS.js -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
+    <video id="video" controls width="800"></video>
 
-  <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" data-setup="{}">
-    <source src="https://its-ferdos-alom.top/voood/play.php?id=Sports18_1_HD_voot_MOB" type="application/x-mpegURL">
-    Your browser does not support the video tag.
-  </video>
+    <script>
+        const video = document.getElementById('video');
+        const streamUrl = 'YOUR_STREAM_URL'; // Replace with your URL
 
-  <script>
-    var player = videojs('my-video');
-  </script>
-
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(streamUrl);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Native HLS support (Safari)
+            video.src = streamUrl;
+            video.addEventListener('loadedmetadata', () => video.play());
+        } else {
+            alert("Streaming not supported in this browser.");
+        }
+    </script>
 </body>
 </html>
